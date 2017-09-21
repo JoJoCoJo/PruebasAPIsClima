@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es-Mx">
+	<head>
+		<meta charset="UTF-8">
+
+		<link rel="stylesheet" href="/Skeleton-2.0.4/css/normalize.css">
+		<link rel="stylesheet" href="/Skeleton-2.0.4/css/skeleton.css">
+		<title>Prueba Skeleton</title>
+
+	</head>
+	<body>
+		<div class="container">
+			<script type="text/javascript">
+			                  
+			          function ocultar(){
+			          	var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+			          	
+			          	var android = new RegExp('Firefox')
+			          	var ios = new RegExp('iPhone')
+			          	if (android.test(userAgent)) {
+			              
+			              document.getElementById('ios').style.display = 'none';
+			          }
+			         
+			          if (ios.test(userAgent) && !window.MSStream) {
+			              document.getElementById('android').style.visibility = 'hidden';
+			              document.getElementById('android').style.display = 'none';
+			          }	
+			          }
+			          
+			      </script>
+			      <img src="https://play.google.com/intl/en_us/badges/images/badge_new.png" width="120" id="android" onload="ocultar()">
+
+			      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1024px-Download_on_the_App_Store_Badge.svg.png" width="120" id="ios" onload="ocultar()">
+		</div>
+	</body>
+</html>

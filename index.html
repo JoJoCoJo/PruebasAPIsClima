@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<head>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.0/sweetalert2.css" />
+
+		<title>Domino para pruebas</title>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.0/sweetalert2.js"></script>
+		<script src="https://code.highcharts.com/highcharts.src.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<script src="/js/index.js"></script> 
+	</head>
+	<body>
+
+		<div class="container">
+			<h1 class="text-center">Pruebas</h1>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col">
+					<div id="accordion" role="tablist">
+					  <div class="card">
+					    <div class="card-header" role="tab" id="headingOne">
+					      <h5 class="mb-0">
+					        <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					          Prueba API OpenWeather
+					        </a>
+					      </h5>
+					    </div>
+
+					    <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+					      <div class="card-body">
+			        		<form action="#obtenerClimaOpen">
+				        		<label for="ciudadOpenWeather">
+				        			Ingrese la ciudad:
+				        		</label>
+				        		<input type="text" name="ciudadOpenWeather" id="ciudadOpenWeather" class="form-control" required>
+				        		<br />
+				        		<button class="btn btn-outline-primary" id="obtenerClimaOpen" >
+				        			Obtener Clima
+				        		</button>
+				        		<!-- Button trigger modal -->
+				        		<button type="button" class="btn btn-outline-danger" style="display: none;" data-toggle="modal" data-target="#graficaModalOpen" name="botonGraficaOpen" id="botonGraficaOpen">
+				        			Mostrar Gráfica
+				        		</button>
+			        		</form>
+			        		<br/>
+				        	<table class="table text-center">
+				        	  <thead class="thead-inverse">
+				        	    <tr>
+				        	      <th>Nombre</th>
+				        	      <th>Clima</th>
+				        	      <th>Temp. Act.</th>
+				        	      <th>Temp. Max.</th>
+				        	      <th>Temp. Min.</th>
+				        	      <th>Humedad</th>
+				        	      <th>Velocidad del viento</th>
+				        	      <th>Amanecer</th>
+				        	      <th>Anochecer</th>
+				        	    </tr>
+				        	  </thead>
+				        	  <tbody id="tbodyClimaOpenWeather">
+
+				        	  </tbody>
+				        	</table>
+
+				        	<!-- Modal -->
+				        	<div class="modal fade" id="graficaModalOpen" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModal">
+												Gráfica Clima
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div id="containerChartOpenW"></div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">
+												Cerrar
+											</button>
+										</div>
+									</div>
+								</div>
+				        	</div>
+
+					      </div>
+					    </div>
+					  </div>
+					  <div class="card">
+					    <div class="card-header" role="tab" id="headingTwo">
+					      <h5 class="mb-0">
+					        <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+					          Prueba API AccuWeather
+					        </a>
+					      </h5>
+					    </div>
+					    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+					      <div class="card-body">
+							<form action="#obtenerClimaAccu">
+				        		<label for="ciudadAccuWeather">
+				        			Seleccione la ciudad:
+				        		</label>
+				        		<select name="ciudadAccuWeather" id="ciudadAccuWeather" class="form-control" required>
+				        			<option value="" selected disabled >Seleccione una ciudad...</option>
+				        			<option value="235905">Villahermosa</option>
+				        			<option value="234610">Oaxaca</option>
+				        			<option value="246574">Mérida</option>
+				        			<option value="235049">Cancún</option>
+				        			<option value="243735">Guadalajara</option>
+				        		</select>
+				        		<br />
+				        		<button class="btn btn-outline-primary" id="obtenerClimaAccu" >
+				        			Obtener Clima
+				        		</button>
+				        		<!-- Button trigger modal -->
+				        		<button type="button" class="btn btn-outline-danger" style="display: none;" data-toggle="modal" data-target="#graficaModalAccuTempMaxMin" name="botonGraficaAccuTempMaxMin" id="botonGraficaAccuTempMaxMin">
+				        			Gráfica Temp. Máx. / Min.
+				        		</button>
+				        		<!-- Button trigger modal -->
+				        		<button type="button" class="btn btn-outline-warning" style="display: none;" data-toggle="modal" data-target="#graficaModalAccuSenTerMaxMin" name="botonGraficaAccuSenTerMaxMin" id="botonGraficaAccuSenTerMaxMin">
+				        			Gráfica Sen. Ter. Máx. / Min.
+				        		</button>
+			        		</form>
+			        		<br/>
+							<table class="table text-center">
+							  <thead class="thead-inverse">
+							    <tr>
+							      <th>Fecha</th>
+							      <th>Clima</th>
+							      <th>Sensación Térmica Min. / Max.</th>
+							      <th>Temp. Max. / Min.</th>
+							      <th>Probabilidad de Lluvia</th>
+							      <th>Probabilidad de Tormenta Eléctrica</th>
+							      <th>Velocidad del viento</th>
+							      <th>Amanecer</th>
+							      <th>Anochecer</th>
+							    </tr>
+							  </thead>
+							  <tbody id="tbodyClimaAccuWeather">
+
+							  </tbody>
+							</table>
+
+				        	<!-- Modal -->
+				        	<div class="modal fade" id="graficaModalAccuTempMaxMin" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModal"></h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div id="containerChartAccuTempMaxMin"></div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">
+												Cerrar
+											</button>
+										</div>
+									</div>
+								</div>
+				        	</div>
+
+	        	        	<!-- Modal -->
+	        	        	<div class="modal fade" id="graficaModalAccuSenTerMaxMin" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+	        					<div class="modal-dialog modal-lg" role="document">
+	        						<div class="modal-content">
+	        							<div class="modal-header">
+	        								<h5 class="modal-title" id="exampleModal"></h5>
+	        								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        									<span aria-hidden="true">&times;</span>
+	        								</button>
+	        							</div>
+	        							<div class="modal-body">
+	        								<div id="containerChartAccuSenTerMaxMin"></div>
+	        							</div>
+	        							<div class="modal-footer">
+	        								<button type="button" class="btn btn-secondary" data-dismiss="modal">
+	        									Cerrar
+	        								</button>
+	        							</div>
+	        						</div>
+	        					</div>
+	        	        	</div>
+
+					      </div>
+					    </div>
+					  </div>
+					  <div class="card">
+					    <div class="card-header" role="tab" id="headingThree">
+					      <h5 class="mb-0">
+					        <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+					          Prueba API YahooWeather
+					        </a>
+					      </h5>
+					    </div>
+					    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+					      <div class="card-body">
+					        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+					      </div>
+					    </div>
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>
