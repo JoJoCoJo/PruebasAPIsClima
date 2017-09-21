@@ -52,79 +52,22 @@ var optionsChart = {
 					}
 
 $(document).ready(function (){
+
 	$('#obtenerClimaOpen').on('click', function(e){
+
 		e.preventDefault()
 		obtenerClimaOpenWeather()
+
 	})
+
 	$('#obtenerClimaAccu').on('click', function(e){
+
 		e.preventDefault()
 		obtenerClimaAccuWeather()
+
 	})
 
-	Highcharts.createElement('link', {
-	   href: 'https://fonts.googleapis.com/css?family=Dosis:400,600',
-	   rel: 'stylesheet',
-	   type: 'text/css'
-	}, null, document.getElementsByTagName('head')[0]);
-
-	Highcharts.theme = {
-	   colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
-	      '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
-	   chart: {
-	      backgroundColor: null,
-	      style: {
-	         fontFamily: 'Dosis, sans-serif'
-	      }
-	   },
-	   title: {
-	      style: {
-	         fontSize: '16px',
-	         fontWeight: 'bold',
-	         textTransform: 'uppercase'
-	      }
-	   },
-	   tooltip: {
-	      borderWidth: 0,
-	      backgroundColor: 'rgba(219,219,216,0.8)',
-	      shadow: false
-	   },
-	   legend: {
-	      itemStyle: {
-	         fontWeight: 'bold',
-	         fontSize: '13px'
-	      }
-	   },
-	   xAxis: {
-	      gridLineWidth: 1,
-	      labels: {
-	         style: {
-	            fontSize: '12px'
-	         }
-	      }
-	   },
-	   yAxis: {
-	      minorTickInterval: 'auto',
-	      title: {
-	         style: {
-	            textTransform: 'uppercase'
-	         }
-	      },
-	      labels: {
-	         style: {
-	            fontSize: '12px'
-	         }
-	      }
-	   },
-	   plotOptions: {
-	      candlestick: {
-	         lineColor: '#404048'
-	      }
-	   },
-	   // General
-	   background2: '#F0F0EA'
-	};
-	// Apply the theme
-	Highcharts.setOptions(Highcharts.theme);
+	temaHighCharts()
 })
 
 function obtenerClimaOpenWeather() {
@@ -141,7 +84,7 @@ function obtenerClimaOpenWeather() {
 
 	} else {
 
-		urlAjax = 'https://api.openweathermap.org/data/2.5/weather?q='+ ciudadOpcion.trim() +'&lang=es&units=metric&APPID=' + apiKeyOpenWeather.trim()
+		urlAjax = 'https://api.openweathermap.org/data/2.5/forecast?q='+ ciudadOpcion.trim() +'&lang=es&units=metric&APPID=' + apiKeyOpenWeather.trim()
 		$.ajax({
 
 			url: urlAjax,
@@ -158,9 +101,10 @@ function obtenerClimaOpenWeather() {
 		}).done(function(response) {
 
 			// Formatear UnixTime JS 			
-			var amanecer = formatearUnixTime(response.sys.sunrise)
-			var anochecer = formatearUnixTime(response.sys.sunset)
-
+			/*
+			var amanecer = formatearUnixTimeHora(response.sys.sunrise)
+			var anochecer = formatearUnixTimeHora(response.sys.sunset)
+			
 			$('#tbodyClimaOpenWeather').empty();
 			$('#tbodyClimaOpenWeather').append(
 				'<tr>'+
@@ -179,8 +123,12 @@ function obtenerClimaOpenWeather() {
 				)
 
 			$('#botonGraficaOpen').show()
+			*/
 			swal.close()
+			var unixTimeFecha = formatearUnixTimeFecha(response.list[0].dt)
+			var unixTimeHora = formatearUnixTimeHora(response.list[0].dt)
 
+			swal('Fecha', unixTimeFecha+' '+unixTimeHora+ '<br/>' + formatearFechaISO8601(response.list[0].dt_txt)+' '+formatearHoraISO8601(response.list[0].dt_txt))
 		}).fail(function(jqXHR, textStatus){
 
 			$('#botonGraficaOpen').hide()
@@ -267,30 +215,6 @@ function obtenerClimaAccuWeather() {
 
 			})
 
-			/*
-				{
-					chart: {
-						renderTo: '',
-						defaultSeriesType: 'column'
-					},
-					title: {
-						text: ''
-					},
-					xAxis: {
-						categories: []
-					},
-					yAxis: {
-						title: {
-						text: ''
-					}
-					},
-					series: [{
-								type: '',
-							    name: '',
-							    data: []
-						}]
-				}
-			*/
 			optionsChart.title.text = 'Temperatura'
 			optionsChart.chart.renderTo = 'containerChartAccuTempMaxMin'
 			optionsChart.chart.defaultSeriesType = 'spline'
@@ -313,7 +237,7 @@ function obtenerClimaAccuWeather() {
 
 			console.log(JSON.stringify(optionsChart, null, 4))
 			console.log('================================================================')
-			console.log(JSON.stringify(optionsChart.series, null, 4)
+			console.log(JSON.stringify(optionsChart.series, null, 4))
 
 			var chart = new Highcharts.chart(optionsChart)
 
@@ -381,12 +305,115 @@ function obtenerClimaAccuWeather() {
 	}
 }
 
-function formatearUnixTime (UnixTime){
+function temaHighCharts(){
+	Highcharts.createElement('link', {
+	   href: 'https://fonts.googleapis.com/css?family=Dosis:400,600',
+	   rel: 'stylesheet',
+	   type: 'text/css'
+	}, null, document.getElementsByTagName('head')[0]);
+
+	Highcharts.theme = {
+	   colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
+	      '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+	   chart: {
+	      backgroundColor: null,
+	      style: {
+	         fontFamily: 'Dosis, sans-serif'
+	      }
+	   },
+	   title: {
+	      style: {
+	         fontSize: '16px',
+	         fontWeight: 'bold',
+	         textTransform: 'uppercase'
+	      }
+	   },
+	   tooltip: {
+	      borderWidth: 0,
+	      backgroundColor: 'rgba(219,219,216,0.8)',
+	      shadow: false
+	   },
+	   legend: {
+	      itemStyle: {
+	         fontWeight: 'bold',
+	         fontSize: '13px'
+	      }
+	   },
+	   xAxis: {
+	      gridLineWidth: 1,
+	      labels: {
+	         style: {
+	            fontSize: '12px'
+	         }
+	      }
+	   },
+	   yAxis: {
+	      minorTickInterval: 'auto',
+	      title: {
+	         style: {
+	            textTransform: 'uppercase'
+	         }
+	      },
+	      labels: {
+	         style: {
+	            fontSize: '12px'
+	         }
+	      }
+	   },
+	   plotOptions: {
+	      candlestick: {
+	         lineColor: '#404048'
+	      }
+	   },
+	   // General
+	   background2: '#F0F0EA'
+	};
+	// Apply the theme
+	Highcharts.setOptions(Highcharts.theme);
+}
+
+function formatearUnixTimeHora (UnixTime){
 	var SinFormato = new Date(UnixTime*1000)
 	var Horas = SinFormato.getHours()
 	var Minutos = "0" + SinFormato.getMinutes()
 	var Formato = Horas + ':' + Minutos.substr(-2)
 
+	return Formato
+}
+
+function formatearUnixTimeFecha (UnixTime){
+	var nombreMeses = [
+		'Ene', 'Feb', 'Mar',
+		'Abr', 'May', 'Jun', 'Jul',
+		'Ago', 'Sep', 'Oct',
+		'Nov', 'Dic'
+	]
+
+	var nombreDias = [
+		'Dom', 'Lun', 'Mar',
+		'Mie', 'Jue', 'Vie',
+		'Sáb', 'Dom'
+	]
+	
+	var SinFormato = new Date(UnixTime*1000)
+
+	var dia = SinFormato.getDate()
+	var diaIndex = SinFormato.getDay()
+	var mesIndex = SinFormato.getMonth()
+	var anio = SinFormato.getFullYear()
+	var Formato = nombreDias[diaIndex]+ ', ' +dia + '/' + nombreMeses[mesIndex] + '/' + anio
+
+	return Formato
+}
+
+
+function formatearHoraISO8601(fechaISO){
+	
+	var SinFormato = new Date(fechaISO)
+	var Horas = SinFormato.getHours()
+	var Minutos = "0" + SinFormato.getMinutes()
+	var Formato = Horas + ':' + Minutos.substr(-2)
+	
 	return Formato
 }
 
@@ -411,15 +438,5 @@ function formatearFechaISO8601(fechaISO){
 	var anio = SinFormato.getFullYear()
 	var Formato = nombreDias[diaIndex]+ ', ' +dia + '/' + nombreMeses[mesIndex] + '/' + anio
 
-	return Formato
-}
-
-function formatearHoraISO8601(fechaISO){
-	
-	var SinFormato = new Date(fechaISO)
-	var Horas = SinFormato.getHours()
-	var Minutos = "0" + SinFormato.getMinutes()
-	var Formato = Horas + ':' + Minutos.substr(-2)
-	
 	return Formato
 }
