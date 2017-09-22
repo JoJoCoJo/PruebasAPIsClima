@@ -1,6 +1,6 @@
 
 var apiKeyOpenWeather = '2d6877f7a0ae66578fe86eff5e7b0543'
-var apiKeyAccuWeather = 'XeciObcdoUj6OCGIRQ9HkaEOYNh4y8C8'
+var apiKeyAccuWeather = 'KvYYVoqAgcv4MZ25L1eYBI2TJN3E3mGT'
 						/* 
 							apiKey AccuWeather 
 								jojocojo@hotmail.com
@@ -8,7 +8,6 @@ var apiKeyAccuWeather = 'XeciObcdoUj6OCGIRQ9HkaEOYNh4y8C8'
 
 								josejoaquin192@hotmail.com
 								XeciObcdoUj6OCGIRQ9HkaEOYNh4y8C8
-
 						*/
 var ciudadOpcion
 var urlAjax
@@ -101,34 +100,40 @@ function obtenerClimaOpenWeather() {
 		}).done(function(response) {
 
 			// Formatear UnixTime JS 			
-			/*
-			var amanecer = formatearUnixTimeHora(response.sys.sunrise)
-			var anochecer = formatearUnixTimeHora(response.sys.sunset)
 			
+			
+			/*
+				<th>Nombre</th>
+				<th>Clima</th>
+				<th>Fecha</th>
+				<th>Temp. Max.</th>
+				<th>Temp. Min.</th>
+				<th>Humedad</th>
+				<th>Velocidad del viento</th>
+				<th>Amanecer</th>
+				<th>Anochecer</th>
+			*/
 			$('#tbodyClimaOpenWeather').empty();
 			$('#tbodyClimaOpenWeather').append(
 				'<tr>'+
-					'<td>'+response.name+'</td>'+
+					'<td>'+formatearFechaISO8601(response.list[0].dt_txt)+', '+ formatearHoraISO8601(response.list[0].dt_txt) +'</td>'+
+					'<td>'+response.city.name+', '+response.city.country+ '</td>'+
 					'<td>'+
-						'<img src="http://openweathermap.org/img/w/'+response.weather[0].icon.trim()+'.png" alt="'+response.weather[0].description+'" /> '+response.weather[0].description+
+						'<img src="http://openweathermap.org/img/w/'+response.list[0].weather[0].icon.trim()+'.png" alt="'+response.list[0].weather[0].description+'" /> '+response.list[0].weather[0].description+
 					'</td>'+
-					'<td>'+response.main.temp+' °C</td>'+
-					'<td>'+response.main.temp_max+' °C</td>'+
-					'<td>'+response.main.temp_min+' °C</td>'+
-					'<td>'+response.main.humidity+'%</td>'+
-					'<td>'+response.wind.speed+' km/h</td>'+
-					'<th>'+amanecer +'</th>'+
-					'<th>'+anochecer +'</th>'+
+					'<td>'+response.list[0].main.temp+' °C</td>'+
+					'<td>'+response.list[0].main.temp_max+' °C</td>'+
+					'<td>'+response.list[0].main.temp_min+' °C</td>'+
+					'<td>'+response.list[0].main.humidity+'%</td>'+
+					'<td>'+response.list[0].wind.speed+' km/h</td>'+
+					'<th>N.A.</th>'+
+					'<th>N.A.</th>'+
 				'</tr>'
 				)
 
 			$('#botonGraficaOpen').show()
-			*/
 			swal.close()
-			var unixTimeFecha = formatearUnixTimeFecha(response.list[0].dt)
-			var unixTimeHora = formatearUnixTimeHora(response.list[0].dt)
-
-			swal('Fecha', unixTimeFecha+' '+unixTimeHora+ '<br/>' + formatearFechaISO8601(response.list[0].dt_txt)+' '+formatearHoraISO8601(response.list[0].dt_txt))
+			
 		}).fail(function(jqXHR, textStatus){
 
 			$('#botonGraficaOpen').hide()
