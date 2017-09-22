@@ -6,6 +6,7 @@
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.0/sweetalert2.css" />
+		<link rel="stylesheet" href="DataTables/css/jquery.dataTables.css">
 
 		<title>Domino para pruebas</title>
 		
@@ -15,6 +16,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.0/sweetalert2.js"></script>
 		<script src="https://code.highcharts.com/highcharts.src.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<script src="DataTables/js/jquery.dataTables.js"></script>
 		<script src="/js/index.js"></script> 
 	</head>
 	<body>
@@ -52,7 +54,7 @@
 				        		</button>
 			        		</form>
 			        		<br/>
-				        	<table class="table text-center">
+				        	<table class="display" id="DataTable">
 				        	  <thead class="thead-inverse">
 				        	    <tr>				        	    	
 				        	      <th>ID</th>
