@@ -99,41 +99,36 @@ function obtenerClimaOpenWeather() {
 
 		}).done(function(response) {
 
-			// Formatear UnixTime JS 			
-			
-			
-			/*
-				<th>Nombre</th>
-				<th>Clima</th>
-				<th>Fecha</th>
-				<th>Temp. Max.</th>
-				<th>Temp. Min.</th>
-				<th>Humedad</th>
-				<th>Velocidad del viento</th>
-				<th>Amanecer</th>
-				<th>Anochecer</th>
-			*/
 			$('#tbodyClimaOpenWeather').empty();
-			$('#tbodyClimaOpenWeather').append(
-				'<tr>'+
-					'<td>'+formatearFechaISO8601(response.list[0].dt_txt)+', '+ formatearHoraISO8601(response.list[0].dt_txt) +'</td>'+
-					'<td>'+response.city.name+', '+response.city.country+ '</td>'+
-					'<td>'+
-						'<img src="http://openweathermap.org/img/w/'+response.list[0].weather[0].icon.trim()+'.png" alt="'+response.list[0].weather[0].description+'" /> '+response.list[0].weather[0].description+
-					'</td>'+
-					'<td>'+response.list[0].main.temp+' °C</td>'+
-					'<td>'+response.list[0].main.temp_max+' °C</td>'+
-					'<td>'+response.list[0].main.temp_min+' °C</td>'+
-					'<td>'+response.list[0].main.humidity+'%</td>'+
-					'<td>'+response.list[0].wind.speed+' km/h</td>'+
-					'<th>N.A.</th>'+
-					'<th>N.A.</th>'+
-				'</tr>'
+
+			$.each(response.list, function(i){
+
+				$('#tbodyClimaOpenWeather').append(
+					'<tr>'+
+						'<td>'+(i+1)+'</td>'+
+						'<td>'+formatearFechaISO8601(response.list[i].dt_txt)+', '+ formatearHoraISO8601(response.list[i].dt_txt) +'</td>'+
+						'<td>'+response.city.name+', '+response.city.country+ '</td>'+
+						'<td>'+
+							'<img src="http://openweathermap.org/img/w/'+response.list[i].weather[0].icon.trim()+'.png" alt="'+response.list[i].weather[0].description+'" /> '+response.list[i].weather[0].description+
+						'</td>'+
+						'<td>'+response.list[i].main.temp+' °C</td>'+
+						'<td>'+response.list[i].main.temp_max+' °C</td>'+
+						'<td>'+response.list[i].main.temp_min+' °C</td>'+
+						'<td>'+response.list[i].main.humidity+'%</td>'+
+						'<td>'+response.list[i].wind.speed+' km/h</td>'+
+						'<th>'+response.list[i].main.pressure+' hPa</th>'+
+						'<th>'+response.list[i].clouds.all+' %</th>'+
+					'</tr>'
 				)
+
+			})
+
+			
+			
 
 			$('#botonGraficaOpen').show()
 			swal.close()
-			
+
 		}).fail(function(jqXHR, textStatus){
 
 			$('#botonGraficaOpen').hide()
