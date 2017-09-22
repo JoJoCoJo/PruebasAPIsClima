@@ -1,4 +1,8 @@
 
+var ciudadOpcion
+var urlAjax
+var TableData
+
 var apiKeyOpenWeather = '2d6877f7a0ae66578fe86eff5e7b0543'
 var apiKeyAccuWeather = 'KvYYVoqAgcv4MZ25L1eYBI2TJN3E3mGT'
 						/* 
@@ -9,8 +13,6 @@ var apiKeyAccuWeather = 'KvYYVoqAgcv4MZ25L1eYBI2TJN3E3mGT'
 								josejoaquin192@hotmail.com
 								XeciObcdoUj6OCGIRQ9HkaEOYNh4y8C8
 						*/
-var ciudadOpcion
-var urlAjax
 var optionsChart = {
 						chart: {
 							renderTo: '',
@@ -49,9 +51,24 @@ var optionsChart = {
 						    data: []
 						}, ]
 					}
+var nombreMeses = [
+	'Ene', 'Feb', 'Mar',
+	'Abr', 'May', 'Jun', 'Jul',
+	'Ago', 'Sep', 'Oct',
+	'Nov', 'Dic'
+]
+
+var nombreDias = [
+	'Dom', 'Lun', 'Mar',
+	'Mie', 'Jue', 'Vie',
+	'Sáb', 'Dom'
+]
+					
 
 $(document).ready(function (){
-
+	
+	TableData = $('#DataTable')
+	TableData = mostrarDataTable()
 	$('#obtenerClimaOpen').on('click', function(e){
 
 		e.preventDefault()
@@ -99,6 +116,9 @@ function obtenerClimaOpenWeather() {
 
 		}).done(function(response) {
 
+			TableData = $('#DataTable').DataTable()
+			TableData.destroy()
+
 			$('#tbodyClimaOpenWeather').empty();
 
 			$.each(response.list, function(i){
@@ -123,9 +143,7 @@ function obtenerClimaOpenWeather() {
 
 			})
 
-			
-			
-
+			TableData = mostrarDataTable('DataTable')
 			$('#botonGraficaOpen').show()
 			swal.close()
 
@@ -235,12 +253,9 @@ function obtenerClimaAccuWeather() {
 			optionsChart.series[4].type = 'spline'
 			optionsChart.series[4].name = 'Sen. Ter. Min.'
 
-			console.log(JSON.stringify(optionsChart, null, 4))
-			console.log('================================================================')
-			console.log(JSON.stringify(optionsChart.series, null, 4))
-
 			var chart = new Highcharts.chart(optionsChart)
 
+			/*
 			Highcharts.chart('containerChartAccuSenTerMaxMin', {
 			    title: {
 			    	text: 'Sensación Térmica'
@@ -277,17 +292,12 @@ function obtenerClimaAccuWeather() {
 			    }
 			    ]
 			})
+			*/
 			
 			$('#botonGraficaAccuTempMaxMin, #botonGraficaAccuSenTerMaxMin').show()
 			swal.close()
 			
 		}).fail(function(jqXHR, textStatus){
-
-			console.log(JSON.stringify(jqXHR, null, 4))
-			console.log('==============================')
-			console.log(jqXHR)
-			console.log('==============================')
-			console.log(textStatus)
 			
 			$('#botonGraficaAccuTempMaxMin, #botonGraficaAccuSenTerMaxMin').hide()
 			swal.close()
@@ -372,6 +382,81 @@ function temaHighCharts(){
 	Highcharts.setOptions(Highcharts.theme);
 }
 
+function mostrarDataTable (idTable){
+
+	if (idTable === null || idTable === undefined) {
+		TableData.DataTable({
+			"lengthMenu": [
+	            [5, 10, 25, 50, 100, -1], 
+	            [5, 10, 25, 50, 100, "Todos"]
+	          ],
+	          "iDisplayLength": 5,
+	          "language": {
+	                "sProcessing":     "Procesando...",
+	                "sLengthMenu":     "Mostrar _MENU_ registros",
+	                "sZeroRecords":    "No se encontraron resultados",
+	                "sEmptyTable":     "Ningún registro disponible.",
+	                "sInfo":           "Mostrando de _START_ - _END_ de un total de _TOTAL_ registros",
+	                "sInfoEmpty":      "Mostrando del 0 al 0 de un total de 0 registros",
+	                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	                "sInfoPostFix":    "",
+	                "sSearch":         "Buscar:",
+	                "sUrl":            "",
+	                "sInfoThousands":  ",",
+	                "sLoadingRecords": "Cargando...",
+	                "oPaginate": {
+	                    "sFirst":    "Primero",
+	                    "sLast":     "Último",
+	                    "sNext":     "Siguiente",
+	                    "sPrevious": "Anterior"
+	                },
+	                "oAria": {
+	                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+	                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	                }
+			}
+
+		})
+
+	}else{
+
+		TableData = $('#'+idTable+'').DataTable({
+			"lengthMenu": [
+	            [5, 10, 25, 50, 100, -1], 
+	            [5, 10, 25, 50, 100, "Todos"]
+	          ],
+	          "iDisplayLength": 5,
+	          "language": {
+	                "sProcessing":     "Procesando...",
+	                "sLengthMenu":     "Mostrar _MENU_ registros",
+	                "sZeroRecords":    "No se encontraron resultados",
+	                "sEmptyTable":     "Ningún registro disponible.",
+	                "sInfo":           "Mostrando de _START_ - _END_ de un total de _TOTAL_ registros",
+	                "sInfoEmpty":      "Mostrando del 0 al 0 de un total de 0 registros",
+	                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	                "sInfoPostFix":    "",
+	                "sSearch":         "Buscar:",
+	                "sUrl":            "",
+	                "sInfoThousands":  ",",
+	                "sLoadingRecords": "Cargando...",
+	                "oPaginate": {
+	                    "sFirst":    "Primero",
+	                    "sLast":     "Último",
+	                    "sNext":     "Siguiente",
+	                    "sPrevious": "Anterior"
+	                },
+	                "oAria": {
+	                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+	                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	                }
+			}
+
+		})
+
+	}
+
+	return TableData
+}
 function formatearUnixTimeHora (UnixTime){
 	var SinFormato = new Date(UnixTime*1000)
 	var Horas = SinFormato.getHours()
@@ -382,19 +467,7 @@ function formatearUnixTimeHora (UnixTime){
 }
 
 function formatearUnixTimeFecha (UnixTime){
-	var nombreMeses = [
-		'Ene', 'Feb', 'Mar',
-		'Abr', 'May', 'Jun', 'Jul',
-		'Ago', 'Sep', 'Oct',
-		'Nov', 'Dic'
-	]
 
-	var nombreDias = [
-		'Dom', 'Lun', 'Mar',
-		'Mie', 'Jue', 'Vie',
-		'Sáb', 'Dom'
-	]
-	
 	var SinFormato = new Date(UnixTime*1000)
 
 	var dia = SinFormato.getDate()
@@ -418,19 +491,7 @@ function formatearHoraISO8601(fechaISO){
 }
 
 function formatearFechaISO8601(fechaISO){
-	
-	var nombreMeses = [
-		'Ene', 'Feb', 'Mar',
-		'Abr', 'May', 'Jun', 'Jul',
-		'Ago', 'Sep', 'Oct',
-		'Nov', 'Dic'
-	]
 
-	var nombreDias = [
-		'Dom', 'Lun', 'Mar',
-		'Mie', 'Jue', 'Vie',
-		'Sáb', 'Dom'
-	]
 	var SinFormato = new Date(fechaISO)
 	var dia = SinFormato.getDate()
 	var diaIndex = SinFormato.getDay()
