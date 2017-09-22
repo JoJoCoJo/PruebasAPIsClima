@@ -1,7 +1,9 @@
 
 var ciudadOpcion
 var urlAjax
-var TableData
+var TableDataShow
+var TableDataOpenW
+var TableDataAccuW
 
 var apiKeyOpenWeather = '2d6877f7a0ae66578fe86eff5e7b0543'
 var apiKeyAccuWeather = 'KvYYVoqAgcv4MZ25L1eYBI2TJN3E3mGT'
@@ -67,8 +69,8 @@ var nombreDias = [
 
 $(document).ready(function (){
 	
-	TableData = $('#DataTable')
-	TableData = mostrarDataTable()
+	TableDataShow = $('#DataTableOpenW, #DataTableAccuW')
+	TableDataShow = mostrarDataTable()
 	$('#obtenerClimaOpen').on('click', function(e){
 
 		e.preventDefault()
@@ -116,8 +118,8 @@ function obtenerClimaOpenWeather() {
 
 		}).done(function(response) {
 
-			TableData = $('#DataTable').DataTable()
-			TableData.destroy()
+			TableDataOpenW = $('#DataTableOpenW').DataTable()
+			TableDataOpenW.destroy()
 
 			$('#tbodyClimaOpenWeather').empty();
 
@@ -143,7 +145,7 @@ function obtenerClimaOpenWeather() {
 
 			})
 
-			TableData = mostrarDataTable('DataTable')
+			TableDataOpenW = mostrarDataTable('DataTableOpenW')
 			$('#botonGraficaOpen').show()
 			swal.close()
 
@@ -203,6 +205,9 @@ function obtenerClimaAccuWeather() {
 
 		}).done(function(response) {
 
+			TableDataAccuW = $('#DataTableAccuW').DataTable()
+			TableDataAccuW.destroy()
+
 			$('#tbodyClimaAccuWeather').empty()
 			
 			$.each(response.DailyForecasts, function(i, val){
@@ -232,6 +237,8 @@ function obtenerClimaAccuWeather() {
 				optionsChart.xAxis.categories[i] = formatearFechaISO8601(response.DailyForecasts[i].Date)
 
 			})
+
+			TableDataAccuW = mostrarDataTable('DataTableAccuW')
 
 			optionsChart.title.text = 'Temperatura'
 			optionsChart.chart.renderTo = 'containerChartAccuTempMaxMin'
@@ -383,9 +390,10 @@ function temaHighCharts(){
 }
 
 function mostrarDataTable (idTable){
-
+	
 	if (idTable === null || idTable === undefined) {
-		TableData.DataTable({
+		
+		TableDataShow.DataTable({
 			"lengthMenu": [
 	            [5, 10, 25, 50, 100, -1], 
 	            [5, 10, 25, 50, 100, "Todos"]
@@ -420,7 +428,7 @@ function mostrarDataTable (idTable){
 
 	}else{
 
-		TableData = $('#'+idTable+'').DataTable({
+		TableDataShow = $('#'+idTable+'').DataTable({
 			"lengthMenu": [
 	            [5, 10, 25, 50, 100, -1], 
 	            [5, 10, 25, 50, 100, "Todos"]
@@ -455,8 +463,9 @@ function mostrarDataTable (idTable){
 
 	}
 
-	return TableData
+	return TableDataShow
 }
+
 function formatearUnixTimeHora (UnixTime){
 	var SinFormato = new Date(UnixTime*1000)
 	var Horas = SinFormato.getHours()
@@ -478,7 +487,6 @@ function formatearUnixTimeFecha (UnixTime){
 
 	return Formato
 }
-
 
 function formatearHoraISO8601(fechaISO){
 	
