@@ -41,7 +41,7 @@
 				        		<label for="ciudadOpenWeather">
 				        			Ingrese la ciudad:
 				        		</label>
-				        		<input type="text" name="ciudadOpenWeather" id="ciudadOpenWeather" class="form-control" required>
+				        		<input type="text" name="ciudadOpenWeather" id="ciudadOpenWeather" class="form-control">
 				        		<br />
 				        		<button class="btn btn-outline-primary" id="obtenerClimaOpen" >
 				        			Obtener Clima
@@ -54,7 +54,8 @@
 			        		<br/>
 				        	<table class="table text-center">
 				        	  <thead class="thead-inverse">
-				        	    <tr>
+				        	    <tr>				        	    	
+				        	      <th>ID</th>
 				        	      <th>Fecha / Hora</th>
 				        	      <th>Lugar</th>
 				        	      <th>Clima</th>
@@ -63,8 +64,8 @@
 				        	      <th>Temp. Min.</th>
 				        	      <th>Humedad</th>
 				        	      <th>Velocidad del viento</th>
-				        	      <th>Amanecer</th>
-				        	      <th>Anochecer</th>
+				        	      <th>Presión Atmosférica</th>
+				        	      <th>Nublado</th>
 				        	    </tr>
 				        	  </thead>
 				        	  <tbody id="tbodyClimaOpenWeather">
