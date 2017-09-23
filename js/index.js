@@ -35,23 +35,7 @@ var optionsChart = {
 							type: '',
 						    name: '',
 						    data: []
-						}, {
-							type: '',
-						    name: '',
-						    data: []
-						}, {
-							type: '',
-						    name: '',
-						    data: []
-						}, {
-							type: '',
-						    name: '',
-						    data: []
-						}, {
-							type: '',
-						    name: '',
-						    data: []
-						}, ]
+						}]
 					}
 var nombreMeses = [
 	'Ene', 'Feb', 'Mar',
@@ -155,7 +139,7 @@ function obtenerClimaOpenWeather() {
 			swal.close()
 
 			if (jqXHR.responseJSON.message === 'Nothing to geocode') {
-				
+
 				swal({
 					title: 'Ocurrio un error',
 					type: 'error',
@@ -209,8 +193,11 @@ function obtenerClimaAccuWeather() {
 			TableDataAccuW.destroy()
 
 			$('#tbodyClimaAccuWeather').empty()
+
+			console.log(JSON.stringify(optionsChart, null, 4))
+			console.log('==================================================================================')
 			
-			$.each(response.DailyForecasts, function(i, val){
+			$.each(response.DailyForecasts, function(i){
 
 				var iconResponse = "0" + response.DailyForecasts[i].Day.Icon
 
@@ -228,78 +215,77 @@ function obtenerClimaAccuWeather() {
 						'<th>'+ formatearHoraISO8601(response.DailyForecasts[i].Sun.Set) +'</th>'+
 					'</tr>'
 					)
-				optionsChart.series[0].data[i] = response.DailyForecasts[i].Temperature.Maximum.Value
-				optionsChart.series[1].data[i] = response.DailyForecasts[i].Temperature.Minimum.Value
-				optionsChart.series[2].data[i] = response.DailyForecasts[i].RealFeelTemperature.Minimum.Value
-				optionsChart.series[3].data[i] = response.DailyForecasts[i].RealFeelTemperature.Maximum.Value
-				optionsChart.series[4].data[i] = response.DailyForecasts[i].RealFeelTemperature.Minimum.Value
+				
+				optionsChart.series[i].data.push(response.DailyForecasts[i].Temperature.Maximum.Value)
+				optionsChart.series[i].data.push(response.DailyForecasts[i].Temperature.Minimum.Value)
+				optionsChart.series[i].type = 'column'
+				optionsChart.series.push({
+						type: '',
+						name: '',
+						data: []
+					})
 
-				optionsChart.xAxis.categories[i] = formatearFechaISO8601(response.DailyForecasts[i].Date)
+				optionsChart.xAxis.categories.push(formatearFechaISO8601(response.DailyForecasts[i].Date))
 
 			})
+			console.log(JSON.stringify(optionsChart, null, 4))
 
 			TableDataAccuW = mostrarDataTable('DataTableAccuW')
+			
+			
 
 			optionsChart.title.text = 'Temperatura'
 			optionsChart.chart.renderTo = 'containerChartAccuTempMaxMin'
 			optionsChart.chart.defaultSeriesType = 'spline'
 			optionsChart.yAxis.title.text = 'Grados °C'
-
-			optionsChart.series[0].type = 'spline'
-			optionsChart.series[0].name = 'Tem. Máx.'
-
-			optionsChart.series[1].type = 'column'
-			optionsChart.series[1].name = 'Tem. Min.'
-
-			optionsChart.series[2].type = 'spline'
+			
+			//optionsChart.series[].name = 'Tem. Máx.'
+			/*
+			optionsChart.series[2].type = 'column'
 			optionsChart.series[2].name = 'Sen. Ter. Min.'
 
 			optionsChart.series[3].type = 'column'
 			optionsChart.series[3].name = 'Sen. Ter. Máx.'
 
-			optionsChart.series[4].type = 'spline'
+			optionsChart.series[4].type = 'column'
 			optionsChart.series[4].name = 'Sen. Ter. Min.'
+			*/
+			var chartAccuTemp = new Highcharts.chart(optionsChart)
 
-			var chart = new Highcharts.chart(optionsChart)
 
-			/*
-			Highcharts.chart('containerChartAccuSenTerMaxMin', {
-			    title: {
-			    	text: 'Sensación Térmica'
-			    },
-			    xAxis: {
-			        categories: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes']
-			    },
-			    yAxis: {
-			        min: 0,
-			        title: {
-			            text: 'Temperatura (°C)'
-			        }
-			    },
-			    series: [{
-			    	type: 'column',
-			        name: 'Sen. Ter. Máx.',
-			        data: [
+
+			optionsChart.title.text = 'Temperatura'
+			optionsChart.chart.renderTo = 'containerChartAccuSenTerMaxMin'
+			optionsChart.chart.defaultSeriesType = 'spline'
+			optionsChart.yAxis.title.text = 'Grados °C'
+
+			optionsChart.xAxis.categories = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes']
+
+			optionsChart.series[0].type = ''
+			optionsChart.series[0].name = 'Sen. Ter. Máx.'
+			optionsChart.series[0].data = [
 			        	response.DailyForecasts[0].RealFeelTemperature.Maximum.Value,
 			        	response.DailyForecasts[1].RealFeelTemperature.Maximum.Value,
 			        	response.DailyForecasts[2].RealFeelTemperature.Maximum.Value,
 			        	response.DailyForecasts[3].RealFeelTemperature.Maximum.Value,
 			        	response.DailyForecasts[4].RealFeelTemperature.Maximum.Value
 			        	]
-			    },{
-			    	type: 'column',
-			        name: 'Sen. Ter. Min.',
-			        data: [
+			optionsChart.series.push({
+							type: '',
+						    name: '',
+						    data: []
+						})
+			optionsChart.series[1].type = ''
+			optionsChart.series[1].name = 'Sen. Ter. Min.'
+			optionsChart.series[1].data = [
 			        	response.DailyForecasts[0].RealFeelTemperature.Minimum.Value,
 			        	response.DailyForecasts[1].RealFeelTemperature.Minimum.Value,
 			        	response.DailyForecasts[2].RealFeelTemperature.Minimum.Value,
 			        	response.DailyForecasts[3].RealFeelTemperature.Minimum.Value,
 			        	response.DailyForecasts[4].RealFeelTemperature.Minimum.Value
 			        	]
-			    }
-			    ]
-			})
-			*/
+
+			var chartAccuSenTer = new Highcharts.chart(optionsChart)
 			
 			$('#botonGraficaAccuTempMaxMin, #botonGraficaAccuSenTerMaxMin').show()
 			swal.close()
