@@ -189,7 +189,7 @@ function obtenerClimaAccuWeather() {
 
 	}else{
 
-		urlAjax = 'http://dataservice.accuweather.com/forecasts/v1/daily/5day/' + ciudadOpcion.trim() +'?apikey=' + apiKeyAccuWeather.trim() + '&language=es-MX&details=true&metric=true'
+		urlAjax = 'https://dataservice.accuweather.com/forecasts/v1/daily/5day/' + ciudadOpcion.trim() +'?apikey=' + apiKeyAccuWeather.trim() + '&language=es-MX&details=true&metric=true'
 		$.ajax({
 
 			url: urlAjax,
